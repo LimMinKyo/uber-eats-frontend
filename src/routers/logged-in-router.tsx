@@ -1,11 +1,10 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { isLoggedInVar } from "../apollo";
 
 export default function LoggedInRouter() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<div>Login</div>} />
-      </Routes>
-    </BrowserRouter>
+    <div>
+      <h1>Logged In</h1>
+      <button onClick={() => isLoggedInVar(false)}>Log Out</button>
+    </div>
   );
 }
