@@ -5,8 +5,9 @@ import { LoginInput, LoginOutput } from "../gql/graphql";
 import logoSvg from "../images/logo.svg";
 import { Button } from "../components/Button";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet";
-import { isLoggedInVar } from "../apollo";
+import { Helmet } from "react-helmet-async";
+import { accessTokenVar, isLoggedInVar } from "../apollo";
+import { ACCESS_TOKEN } from "../constants";
 
 interface IForm {
   email: string;
@@ -39,8 +40,9 @@ export const LoginPage = () => {
     const {
       login: { ok, token },
     } = data;
-    if (ok) {
-      console.log(token);
+    if (ok && token) {
+      localStorage.setItem(ACCESS_TOKEN, token);
+      accessTokenVar(token);
       isLoggedInVar(true);
     }
   };
@@ -66,7 +68,7 @@ export const LoginPage = () => {
         <title>Login | Uber Eats</title>
       </Helmet>
       <div className="w-full max-w-screen-sm flex flex-col px-5 items-center">
-        <img src={logoSvg} className="w-52 mb-10" alt="우버이츠로고" />
+        <img src={logoSvg} className="w-52 mb-10" alt="Uber Eats" />
         <h4 className="w-full font-medium text-left text-3xl mb-5">
           Welcome back
         </h4>
