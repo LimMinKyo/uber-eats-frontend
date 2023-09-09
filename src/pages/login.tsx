@@ -5,6 +5,8 @@ import { LoginInput, LoginOutput } from "../gql/graphql";
 import logoSvg from "../images/logo.svg";
 import { Button } from "../components/Button";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
+import { isLoggedInVar } from "../apollo";
 
 interface IForm {
   email: string;
@@ -39,6 +41,7 @@ export const LoginPage = () => {
     } = data;
     if (ok) {
       console.log(token);
+      isLoggedInVar(true);
     }
   };
 
@@ -59,6 +62,9 @@ export const LoginPage = () => {
 
   return (
     <div className="h-screen flex items-center flex-col mt-10 lg:mt-28">
+      <Helmet>
+        <title>Login | Uber Eats</title>
+      </Helmet>
       <div className="w-full max-w-screen-sm flex flex-col px-5 items-center">
         <img src={logoSvg} className="w-52 mb-10" alt="우버이츠로고" />
         <h4 className="w-full font-medium text-left text-3xl mb-5">
@@ -69,7 +75,11 @@ export const LoginPage = () => {
           className="grid gap-3 mt-5 w-full mb-5"
         >
           <input
-            {...register("email", { required: "Email is required" })}
+            {...register("email", {
+              required: "Email is required",
+              pattern:
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+            })}
             required
             type="email"
             placeholder="Email"
@@ -77,6 +87,9 @@ export const LoginPage = () => {
           />
           {errors.email?.message && (
             <FormError errorMessage={errors.email?.message} />
+          )}
+          {errors.email?.type === "pattern" && (
+            <FormError errorMessage={"Please enter a valid email"} />
           )}
           <input
             {...register("password", {
