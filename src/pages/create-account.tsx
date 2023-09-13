@@ -52,7 +52,7 @@ export const CreateAccountPage = () => {
         createAccount: { ok },
       } = data;
       if (ok) {
-        history.push("/login");
+        history.push("/");
       }
     },
   });
@@ -129,7 +129,7 @@ export const CreateAccountPage = () => {
         </form>
         <div>
           Already have an account?{" "}
-          <Link to="/login" className="text-lime-600 hover:underline">
+          <Link to="/" className="text-lime-600 hover:underline">
             Log in now
           </Link>
         </div>

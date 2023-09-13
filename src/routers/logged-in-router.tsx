@@ -1,5 +1,13 @@
 import { gql, useQuery } from "@apollo/client";
 import { User } from "../gql/graphql";
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import { RestaurantsPage } from "../pages/client/restaurants";
+
+const ClientRoutes = [
+  <Route path="/" exact>
+    <RestaurantsPage />
+  </Route>,
+];
 
 const ME_QUERY = gql`
   query meQuery {
@@ -14,6 +22,7 @@ const ME_QUERY = gql`
 
 export default function LoggedInRouter() {
   const { data, loading, error } = useQuery<{ me: User }>(ME_QUERY);
+
   if (!data || loading || error) {
     return (
       <div className="h-screen flex justify-center items-center">
@@ -21,9 +30,10 @@ export default function LoggedInRouter() {
       </div>
     );
   }
+
   return (
-    <div>
-      <h1>{data.me.email}</h1>
-    </div>
+    <Router>
+      <Switch>{data.me.role === "Client" && ClientRoutes}</Switch>
+    </Router>
   );
 }
