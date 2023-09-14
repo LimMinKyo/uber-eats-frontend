@@ -2,10 +2,14 @@ import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import { RestaurantsPage } from "../pages/client/restaurants";
 import { Header } from "../components/Header";
 import { useMe } from "../hooks/useMe";
+import { ConfirmEmailPage } from "../pages/user/confirm-email";
 
 const ClientRoutes = [
-  <Route path="/" exact>
+  <Route key={1} path="/" exact>
     <RestaurantsPage />
+  </Route>,
+  <Route key={2} path="/confirm" exact>
+    <ConfirmEmailPage />
   </Route>,
 ];
 

@@ -15,8 +15,8 @@ interface IForm {
 }
 
 const LOGIN_MUTATION = gql`
-  mutation loginMutation($loginInput: LoginInput!) {
-    login(input: $loginInput) {
+  mutation loginMutation($input: LoginInput!) {
+    login(input: $input) {
       ok
       error
       token
@@ -27,7 +27,7 @@ const LOGIN_MUTATION = gql`
 export const LoginPage = () => {
   const [loginMutation, { data: loginMutationResult, loading }] = useMutation<
     { login: LoginOutput },
-    { loginInput: LoginInput }
+    { input: LoginInput }
   >(LOGIN_MUTATION);
   const {
     register,
@@ -53,7 +53,7 @@ export const LoginPage = () => {
     console.log(password);
     loginMutation({
       variables: {
-        loginInput: {
+        input: {
           email,
           password,
         },

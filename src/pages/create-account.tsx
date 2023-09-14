@@ -12,8 +12,8 @@ import {
 } from "../gql/graphql";
 
 const CREATE_ACCOUNT_MUTATION = gql`
-  mutation createAccountMutation($createAccountInput: CreateAccountInput!) {
-    createAccount(input: $createAccountInput) {
+  mutation createAccountMutation($input: CreateAccountInput!) {
+    createAccount(input: $input) {
       ok
       error
     }
@@ -45,7 +45,7 @@ export const CreateAccountPage = () => {
     { loading, data: createAccountMutationResult },
   ] = useMutation<
     { createAccount: CreateAccountOutput },
-    { createAccountInput: CreateAccountInput }
+    { input: CreateAccountInput }
   >(CREATE_ACCOUNT_MUTATION, {
     onCompleted: (data: { createAccount: CreateAccountOutput }) => {
       const {
@@ -62,7 +62,7 @@ export const CreateAccountPage = () => {
       const { email, password, role } = getValues();
       createAccountMutation({
         variables: {
-          createAccountInput: { email, password, role },
+          input: { email, password, role },
         },
       });
     }
