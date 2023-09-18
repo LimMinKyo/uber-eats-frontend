@@ -4,12 +4,13 @@ import {
   RestaurantsInput,
   RestaurantsOutput,
 } from "../../gql/graphql";
-import { useState } from "react";
 import { CATEGORY_FRAGMENT, RESTAURANT_FRAGMENT } from "../../fragments";
 import { Link, useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Helmet } from "react-helmet-async";
-import { Restaurant } from "../../components/Restaurant";
+import { Pagination } from "../../components/Pagination";
+import { RestaurantList } from "../../components/RestaurantList";
+import { usePagination } from "../../hooks/usePagination";
 
 const RESTAURANTS_QUERY = gql`
   query restaurantsPageQuery($input: RestaurantsInput!) {
@@ -39,7 +40,7 @@ interface IForm {
 }
 
 export const RestaurantsPage = () => {
-  const [page, setPage] = useState(1);
+  const { page, onClickNextPage, onClickPrevPage } = usePagination();
   const { data, loading } = useQuery<
     { allCategories: AllCategoriesOutput; allRestaurants: RestaurantsOutput },
     { input: RestaurantsInput }
@@ -50,9 +51,6 @@ export const RestaurantsPage = () => {
       },
     },
   });
-
-  const onNextPageClick = () => setPage((current) => current + 1);
-  const onPrevPageClick = () => setPage((current) => current - 1);
 
   const { register, handleSubmit, getValues } = useForm<IForm>();
   const history = useHistory();
@@ -98,41 +96,13 @@ export const RestaurantsPage = () => {
               </Link>
             ))}
           </div>
-          <div className="grid mt-16 md:grid-cols-3 gap-x-5 gap-y-10">
-            {data?.allRestaurants.results?.map((restaurant) => (
-              <Restaurant
-                key={restaurant.id}
-                coverImg={restaurant.coverImg}
-                name={restaurant.name}
-                categoryName={restaurant.category?.name}
-              />
-            ))}
-          </div>
-          <div className="grid grid-cols-3 text-center max-w-md items-center mx-auto mt-10">
-            {page > 1 ? (
-              <button
-                onClick={onPrevPageClick}
-                className="focus:outline-none font-medium text-2xl"
-              >
-                &larr;
-              </button>
-            ) : (
-              <div></div>
-            )}
-            <span>
-              Page {page} of {data?.allRestaurants.totalPages}
-            </span>
-            {page !== data?.allRestaurants.totalPages ? (
-              <button
-                onClick={onNextPageClick}
-                className="focus:outline-none font-medium text-2xl"
-              >
-                &rarr;
-              </button>
-            ) : (
-              <div></div>
-            )}
-          </div>
+          <RestaurantList restaurants={data?.allRestaurants.results || []} />
+          <Pagination
+            page={page}
+            totalPages={data?.allRestaurants.totalPages || 1}
+            onClickNextPage={onClickNextPage}
+            onClickPrevPage={onClickPrevPage}
+          />
         </div>
       )}
     </div>

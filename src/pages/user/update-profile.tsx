@@ -4,7 +4,7 @@ import { regExp } from "../../constants/regExp.constant";
 import { useMe } from "../../hooks/useMe";
 import { UpdateProfileInput, UpdateProfileOutput } from "../../gql/graphql";
 import { gql, useApolloClient, useMutation } from "@apollo/client";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 const UPDATE_PROFILE_MUTATION = gql`
   mutation updateProfileMutation($input: UpdateProfileInput!) {
@@ -38,7 +38,7 @@ export const UpdateProfilePage = () => {
     { updateProfile: UpdateProfileOutput },
     { input: UpdateProfileInput }
   >(UPDATE_PROFILE_MUTATION, {
-    onCompleted: ({ updateProfile: { ok, error } }) => {
+    onCompleted: ({ updateProfile: { ok } }) => {
       if (ok && userData) {
         const {
           me: { email: prevEmail, id },
@@ -79,7 +79,7 @@ export const UpdateProfilePage = () => {
       <Helmet>
         <title>Update Profile | Uber Eats</title>
       </Helmet>
-      <h4 className="font-semibold text-2xl mb-3">Edit Profile</h4>
+      <h4 className="font-semibold text-2xl mb-3">Update Profile</h4>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="grid max-w-screen-sm gap-3 mt-5 w-full mb-5"
