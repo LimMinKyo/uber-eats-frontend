@@ -6,6 +6,7 @@ import { ConfirmEmailPage } from "../pages/user/confirm-email";
 import { UpdateProfilePage } from "../pages/user/update-profile";
 import { NotFoundPage } from "../pages/404";
 import { SearchPage } from "../pages/client/search";
+import { CategoryPage } from "../pages/client/category";
 
 const ClientRoutes = [
   <Route key={1} path="/" exact>
@@ -19,6 +20,9 @@ const ClientRoutes = [
   </Route>,
   <Route key={4} path="/search">
     <SearchPage />
+  </Route>,
+  <Route key={5} path="/category/:slug">
+    <CategoryPage />
   </Route>,
 ];
 
