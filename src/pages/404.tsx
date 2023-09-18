@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 export const NotFoundPage = () => (
   <div className="h-screen flex flex-col items-center justify-center">

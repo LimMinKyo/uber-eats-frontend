@@ -4,16 +4,21 @@ import { Header } from "../components/Header";
 import { useMe } from "../hooks/useMe";
 import { ConfirmEmailPage } from "../pages/user/confirm-email";
 import { UpdateProfilePage } from "../pages/user/update-profile";
+import { NotFoundPage } from "../pages/404";
+import { SearchPage } from "../pages/client/search";
 
 const ClientRoutes = [
   <Route key={1} path="/" exact>
     <RestaurantsPage />
   </Route>,
-  <Route key={2} path="/confirm" exact>
+  <Route key={2} path="/confirm">
     <ConfirmEmailPage />
   </Route>,
-  <Route key={3} path="/update-profile" exact>
+  <Route key={3} path="/update-profile">
     <UpdateProfilePage />
+  </Route>,
+  <Route key={4} path="/search">
+    <SearchPage />
   </Route>,
 ];
 
@@ -31,7 +36,12 @@ export default function LoggedInRouter() {
   return (
     <Router>
       <Header />
-      <Switch>{data.me.role === "Client" && ClientRoutes}</Switch>
+      <Switch>
+        {data.me.role === "Client" && ClientRoutes}
+        <Route>
+          <NotFoundPage />
+        </Route>
+      </Switch>
     </Router>
   );
 }
