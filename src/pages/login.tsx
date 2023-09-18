@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { accessTokenVar, isLoggedInVar } from "../apollo";
 import { ACCESS_TOKEN } from "../constants";
+import { regExp } from "../constants/regExp.constant";
 
 interface IForm {
   email: string;
@@ -79,8 +80,7 @@ export const LoginPage = () => {
           <input
             {...register("email", {
               required: "Email is required",
-              pattern:
-                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+              pattern: regExp.email,
             })}
             required
             type="email"
@@ -114,7 +114,7 @@ export const LoginPage = () => {
           )}
         </form>
         <div>
-          New to Nuber?{" "}
+          New to Uber?{" "}
           <Link to="/create-account" className="text-lime-600 hover:underline">
             Create an Account
           </Link>

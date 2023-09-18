@@ -3,6 +3,7 @@ import { RestaurantsPage } from "../pages/client/restaurants";
 import { Header } from "../components/Header";
 import { useMe } from "../hooks/useMe";
 import { ConfirmEmailPage } from "../pages/user/confirm-email";
+import { UpdateProfilePage } from "../pages/user/update-profile";
 
 const ClientRoutes = [
   <Route key={1} path="/" exact>
@@ -10,6 +11,9 @@ const ClientRoutes = [
   </Route>,
   <Route key={2} path="/confirm" exact>
     <ConfirmEmailPage />
+  </Route>,
+  <Route key={3} path="/update-profile" exact>
+    <UpdateProfilePage />
   </Route>,
 ];
 

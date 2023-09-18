@@ -10,6 +10,7 @@ import {
   CreateAccountOutput,
   UserRole,
 } from "../gql/graphql";
+import { regExp } from "../constants/regExp.constant";
 
 const CREATE_ACCOUNT_MUTATION = gql`
   mutation createAccountMutation($input: CreateAccountInput!) {
@@ -84,8 +85,7 @@ export const CreateAccountPage = () => {
           <input
             {...register("email", {
               required: "Email is required",
-              pattern:
-                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+              pattern: regExp.email,
             })}
             required
             type="email"
