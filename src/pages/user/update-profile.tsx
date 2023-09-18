@@ -4,6 +4,7 @@ import { regExp } from "../../constants/regExp.constant";
 import { useMe } from "../../hooks/useMe";
 import { UpdateProfileInput, UpdateProfileOutput } from "../../gql/graphql";
 import { gql, useApolloClient, useMutation } from "@apollo/client";
+import { Helmet } from "react-helmet";
 
 const UPDATE_PROFILE_MUTATION = gql`
   mutation updateProfileMutation($input: UpdateProfileInput!) {
@@ -75,6 +76,9 @@ export const UpdateProfilePage = () => {
 
   return (
     <div className="mt-52 flex flex-col justify-center items-center">
+      <Helmet>
+        <title>Update Profile | Uber Eats</title>
+      </Helmet>
       <h4 className="font-semibold text-2xl mb-3">Edit Profile</h4>
       <form
         onSubmit={handleSubmit(onSubmit)}
