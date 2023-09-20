@@ -64,6 +64,7 @@
     "@graphql-codegen/client-preset": "^4.1.0",
     "@types/react-helmet": "^6.1.6",
     "@types/react-router-dom": "^5.3.3",
+    "mock-apollo-client": "^1.2.1",
     "tailwindcss": "^3.3.1",
     "ts-node": "^10.9.1"
   }

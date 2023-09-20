@@ -15,7 +15,7 @@ interface IForm {
   password: string;
 }
 
-const LOGIN_MUTATION = gql`
+export const LOGIN_MUTATION = gql`
   mutation loginMutation($input: LoginInput!) {
     login(input: $input) {
       ok
@@ -29,29 +29,29 @@ export const LoginPage = () => {
   const [loginMutation, { data: loginMutationResult, loading }] = useMutation<
     { login: LoginOutput },
     { input: LoginInput }
-  >(LOGIN_MUTATION);
+  >(LOGIN_MUTATION, {
+    onCompleted: (data: { login: LoginOutput }) => {
+      const {
+        login: { ok, token },
+      } = data;
+      if (ok && token) {
+        localStorage.setItem(ACCESS_TOKEN, token);
+        accessTokenVar(token);
+        isLoggedInVar(true);
+      }
+    },
+  });
   const {
     register,
     getValues,
     formState: { errors, isValid },
     handleSubmit,
-  } = useForm<IForm>();
-
-  const onCompleted = (data: { login: LoginOutput }) => {
-    const {
-      login: { ok, token },
-    } = data;
-    if (ok && token) {
-      localStorage.setItem(ACCESS_TOKEN, token);
-      accessTokenVar(token);
-      isLoggedInVar(true);
-    }
-  };
+  } = useForm<IForm>({
+    mode: "onChange",
+  });
 
   const onSubmit = () => {
     const { email, password } = getValues();
-    console.log(email);
-    console.log(password);
     loginMutation({
       variables: {
         input: {
@@ -59,7 +59,6 @@ export const LoginPage = () => {
           password,
         },
       },
-      onCompleted,
     });
   };
 

@@ -9190,6 +9190,11 @@ mkdirp@~0.5.1:
   dependencies:
     minimist "^1.2.6"
 
+mock-apollo-client@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/mock-apollo-client/-/mock-apollo-client-1.2.1.tgz#e3bfdc3ff73b1fea28fa7e91ec82e43ba8cbfa39"
+  integrity sha512-QYQ6Hxo+t7hard1bcHHbsHxlNQYTQsaMNsm2Psh/NbwLMi2R4tGzplJKt97MUWuARHMq3GHB4PTLj/gxej4Caw==
+
 moment@2.29.3:
   version "2.29.3"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.3.tgz#edd47411c322413999f7a5940d526de183c031f3"
