@@ -11,6 +11,7 @@ export const RestaurantList = ({ restaurants }: IProps) => {
       {restaurants.map((restaurant) => (
         <RestaurantComponent
           key={restaurant.id}
+          id={restaurant.id}
           coverImg={restaurant.coverImg}
           name={restaurant.name}
           categoryName={restaurant.category?.name}

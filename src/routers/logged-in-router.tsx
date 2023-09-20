@@ -7,6 +7,7 @@ import { UpdateProfilePage } from "../pages/user/update-profile";
 import { NotFoundPage } from "../pages/404";
 import { SearchPage } from "../pages/client/search";
 import { CategoryPage } from "../pages/client/category";
+import { RestaurantPage } from "../pages/client/restaurant";
 
 const ClientRoutes = [
   <Route key={1} path="/" exact>
@@ -23,6 +24,9 @@ const ClientRoutes = [
   </Route>,
   <Route key={5} path="/category/:slug">
     <CategoryPage />
+  </Route>,
+  <Route key={6} path="/restaurants/:id">
+    <RestaurantPage />
   </Route>,
 ];
 
