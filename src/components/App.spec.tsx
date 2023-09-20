@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import App from "./App";
 import { isLoggedInVar } from "../apollo";
 
@@ -18,7 +18,9 @@ describe("<App />", () => {
 
   it("renders LoggedInRouter", async () => {
     render(<App />);
-    isLoggedInVar(true);
+    act(() => {
+      isLoggedInVar(true);
+    });
     await waitFor(() => {
       screen.getByText("logged-in");
     });
