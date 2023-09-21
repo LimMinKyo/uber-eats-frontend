@@ -1,26 +1,20 @@
 import { MockApolloClient, createMockClient } from "mock-apollo-client";
-import { render, screen, waitFor } from "@testing-library/react";
-import { HelmetProvider } from "react-helmet-async";
-import { BrowserRouter } from "react-router-dom";
+import { render, screen, waitFor } from "../test-utils";
 import { ApolloProvider } from "@apollo/client";
 import { LOGIN_MUTATION, LoginPage } from "./login";
 import userEvent from "@testing-library/user-event";
 
 const setup = () => {
-  const mockClient = createMockClient();
+  const mockApolloClient = createMockClient();
 
   render(
-    <HelmetProvider>
-      <BrowserRouter>
-        <ApolloProvider client={mockClient}>
-          <LoginPage />
-        </ApolloProvider>
-      </BrowserRouter>
-    </HelmetProvider>
+    <ApolloProvider client={mockApolloClient}>
+      <LoginPage />
+    </ApolloProvider>
   );
 
   return {
-    mockClient,
+    mockApolloClient,
   };
 };
 
@@ -28,9 +22,9 @@ describe("<LoginPage />", () => {
   let mockClient: MockApolloClient;
 
   beforeEach(() => {
-    const { mockClient: client } = setup();
+    const { mockApolloClient } = setup();
 
-    mockClient = client;
+    mockClient = mockApolloClient;
   });
 
   it("should render OK", async () => {

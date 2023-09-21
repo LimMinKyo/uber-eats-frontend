@@ -108,9 +108,6 @@ export const CreateAccountPage = () => {
           {errors.password?.message && (
             <FormError errorMessage={errors.password?.message} />
           )}
-          {errors.password?.type === "minLength" && (
-            <FormError errorMessage="Password must be more than 10 chars." />
-          )}
           <select {...register("role", { required: true })} className="input">
             {Object.keys(UserRole).map((role) => (
               <option key={role}>{role}</option>

@@ -1,7 +1,6 @@
-import { act, render, screen } from "@testing-library/react";
+import { act, render, screen } from "../test-utils";
 import { MockedProvider } from "@apollo/client/testing";
 import { ME_QUERY } from "../hooks/useMe";
-import { BrowserRouter } from "react-router-dom";
 import { Header } from "./Header";
 
 describe("<Header />", () => {
@@ -26,9 +25,7 @@ describe("<Header />", () => {
           },
         ]}
       >
-        <BrowserRouter>
-          <Header />
-        </BrowserRouter>
+        <Header />
       </MockedProvider>
     );
     await act(async () => {
@@ -58,9 +55,7 @@ describe("<Header />", () => {
           },
         ]}
       >
-        <BrowserRouter>
-          <Header />
-        </BrowserRouter>
+        <Header />
       </MockedProvider>
     );
     await act(async () => {

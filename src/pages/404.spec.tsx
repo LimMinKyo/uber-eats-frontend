@@ -1,17 +1,9 @@
-import { render, waitFor } from "@testing-library/react";
-import { HelmetProvider } from "react-helmet-async";
+import { render, waitFor } from "../test-utils";
 import { NotFoundPage } from "./404";
-import { BrowserRouter as Router } from "react-router-dom";
 
 describe("<NotFound />", () => {
   it("renders OK", async () => {
-    render(
-      <HelmetProvider>
-        <Router>
-          <NotFoundPage />
-        </Router>
-      </HelmetProvider>
-    );
+    render(<NotFoundPage />);
     await waitFor(() => {
       expect(document.title).toBe("Not Found | Uber Eats");
     });

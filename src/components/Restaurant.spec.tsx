@@ -1,6 +1,5 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen } from "../test-utils";
 import { Restaurant } from "./Restaurant";
-import { BrowserRouter } from "react-router-dom";
 
 describe("<Restaurant />", () => {
   it("renders OK with props", () => {
@@ -10,11 +9,7 @@ describe("<Restaurant />", () => {
       categoryName: "categoryName",
       coverImg: "lala",
     };
-    render(
-      <BrowserRouter>
-        <Restaurant {...props} />
-      </BrowserRouter>
-    );
+    render(<Restaurant {...props} />);
     screen.getByText(props.name);
     screen.getByText(props.categoryName);
     expect(screen.getByRole("link")).toHaveAttribute(
