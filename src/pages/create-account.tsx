@@ -12,7 +12,7 @@ import {
 } from "../gql/graphql";
 import { regExp } from "../constants/regExp.constant";
 
-const CREATE_ACCOUNT_MUTATION = gql`
+export const CREATE_ACCOUNT_MUTATION = gql`
   mutation createAccountMutation($input: CreateAccountInput!) {
     createAccount(input: $input) {
       ok
@@ -53,6 +53,7 @@ export const CreateAccountPage = () => {
         createAccount: { ok },
       } = data;
       if (ok) {
+        alert("Account Created! Log in now!");
         history.push("/");
       }
     },

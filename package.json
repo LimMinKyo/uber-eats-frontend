@@ -30,7 +30,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "test:coverage": "yarn test -- --coverage --watchAll=false",
+    "test:cov": "yarn test -- --coverage --watchAll=false",
     "eject": "react-scripts eject",
     "codegen": "yarn graphql-codegen"
   },
