@@ -22,13 +22,7 @@ describe("Create Account", () => {
       if (operationName && operationName === "createAccountMutation") {
         req.reply((res) => {
           res.send({
-            data: {
-              createAccount: {
-                ok: true,
-                error: null,
-                __typename: "CreateAccountOutput",
-              },
-            },
+            fixture: "create-account.json",
           });
         });
       }
