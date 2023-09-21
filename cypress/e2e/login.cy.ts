@@ -21,12 +21,6 @@ describe("Log In", () => {
   });
 
   it("can fill out the form and login", () => {
-    user.visit("/");
-
-    user.findByPlaceholderText(/email/i).type("client@test.com");
-    user.findByPlaceholderText(/password/i).type("12345");
-    user.findByRole("button").should("not.have.class", "pointer-event-none");
-    user.findByRole("button").click();
-    user.window().its("localStorage.access-token").should("be.a", "string");
+    user.login("client@test.com", "12345");
   });
 });

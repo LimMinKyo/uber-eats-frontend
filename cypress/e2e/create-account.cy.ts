@@ -34,14 +34,10 @@ describe("Create Account", () => {
       }
     });
     user.visit("/create-account");
-    user.findByPlaceholderText(/email/i).type("real1@email.com");
+    user.findByPlaceholderText(/email/i).type("client@test.com");
     user.findByPlaceholderText(/password/i).type("12345");
     user.findByRole("button").click();
     user.wait(1000);
-    user.title().should("eq", "Login | Uber Eats");
-    user.findByPlaceholderText(/email/i).type("real1@email.com");
-    user.findByPlaceholderText(/password/i).type("12345");
-    user.findByRole("button").click();
-    user.window().its("localStorage.access-token").should("be.a", "string");
+    user.login("client@test.com", "12345");
   });
 });
