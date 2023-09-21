@@ -70,7 +70,7 @@ describe("<LoginPage />", () => {
         login: {
           ok: true,
           token: "XXX",
-          error: "mutation-error",
+          error: null,
         },
       },
     });
@@ -93,10 +93,45 @@ describe("<LoginPage />", () => {
       });
     });
     await waitFor(() => {
-      expect(screen.getByText(/mutation-error/i)).toBeInTheDocument();
+      expect(localStorage.setItem).toHaveBeenCalledWith("access-token", "XXX");
+    });
+  });
+  it("get mutation error if it faild mutation", async () => {
+    const email: HTMLInputElement = screen.getByPlaceholderText(/email/i);
+    const password: HTMLInputElement = screen.getByPlaceholderText(/password/i);
+    const submitButton = screen.getByRole("button");
+    const formData = {
+      email: "real@test.com",
+      password: "12345",
+    };
+    const mockMutationResponse = jest.fn().mockResolvedValue({
+      data: {
+        login: {
+          ok: false,
+          token: null,
+          error: "mutation-error",
+        },
+      },
+    });
+    mockClient.setRequestHandler(LOGIN_MUTATION, mockMutationResponse);
+
+    userEvent.type(email, formData.email);
+    userEvent.type(password, formData.password);
+    userEvent.click(submitButton);
+
+    await waitFor(() => {
+      expect(mockMutationResponse).toHaveBeenCalledTimes(1);
     });
     await waitFor(() => {
-      expect(localStorage.setItem).toHaveBeenCalledWith("access-token", "XXX");
+      expect(mockMutationResponse).toHaveBeenCalledWith({
+        input: {
+          email: formData.email,
+          password: formData.password,
+        },
+      });
+    });
+    await waitFor(() => {
+      expect(screen.getByText(/mutation-error/i)).toBeInTheDocument();
     });
   });
 });
