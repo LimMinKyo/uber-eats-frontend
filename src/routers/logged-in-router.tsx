@@ -22,19 +22,19 @@ export default function LoggedInRouter() {
       <Header />
       <Switch>
         {commonRoutes.map(({ path, component }) => (
-          <Route key={path} path={path}>
+          <Route exact key={path} path={path}>
             {component}
           </Route>
         ))}
         {data.me.role === "Client" &&
           clientRoutes.map(({ path, component }) => (
-            <Route key={path} path={path}>
+            <Route exact key={path} path={path}>
               {component}
             </Route>
           ))}
         {data.me.role === "Owner" &&
           ownerRoutes.map(({ path, component }) => (
-            <Route key={path} path={path}>
+            <Route exact key={path} path={path}>
               {component}
             </Route>
           ))}
