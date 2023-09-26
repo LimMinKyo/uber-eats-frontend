@@ -1,11 +1,24 @@
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useMe } from "../hooks/useMe";
 import logoSvg from "../images/logo.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faDoorOpen, faUser } from "@fortawesome/free-solid-svg-icons";
+import { ACCESS_TOKEN } from "../constants";
+import { accessTokenVar, isLoggedInVar } from "../apollo";
+import { useApolloClient } from "@apollo/client";
 
 export const Header = () => {
   const { data } = useMe();
+  const history = useHistory();
+  const client = useApolloClient();
+
+  const onClickLogout = () => {
+    localStorage.removeItem(ACCESS_TOKEN);
+    accessTokenVar(null);
+    isLoggedInVar(false);
+    client.clearStore();
+    history.replace("/");
+  };
 
   return (
     <>
@@ -19,11 +32,14 @@ export const Header = () => {
           <Link to="/">
             <img src={logoSvg} className="w-44" alt="Uber Eats" />
           </Link>
-          <span className="text-xs">
+          <div className="text-xs flex gap-8">
+            <button type="button" onClick={onClickLogout}>
+              <FontAwesomeIcon icon={faDoorOpen} className="text-3xl" />
+            </button>
             <Link to="/update-profile">
               <FontAwesomeIcon icon={faUser} className="text-3xl" />
             </Link>
-          </span>
+          </div>
         </div>
       </header>
     </>
