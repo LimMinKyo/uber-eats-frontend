@@ -85,7 +85,7 @@ export type CreateOrderInput = {
 
 export type CreateOrderItemInput = {
   dishId: Scalars['Int']['input'];
-  options?: InputMaybe<Array<OrderItemOptionInputType>>;
+  options: Array<OrderItemOptionInputType>;
 };
 
 export type CreateOrderOutput = {
@@ -348,12 +348,12 @@ export type OrderItem = {
 
 export type OrderItemOption = {
   __typename?: 'OrderItemOption';
-  choice: Scalars['String']['output'];
+  choice?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
 };
 
 export type OrderItemOptionInputType = {
-  choice: Scalars['String']['input'];
+  choice?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
 };
 

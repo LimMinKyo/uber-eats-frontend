@@ -12,7 +12,6 @@ interface IProps {
   isSelected?: boolean;
   addItemToOrder?: (dishId: number) => void;
   removeFromOrder?: (dishId: number) => void;
-  addOptionToItem?: (dishId: number, option: any) => void;
 }
 
 export const Dish = ({
@@ -27,7 +26,6 @@ export const Dish = ({
   isSelected,
   addItemToOrder,
   removeFromOrder,
-  addOptionToItem,
 }: IProps) => {
   const onClick = () => {
     if (!orderStarted) {
@@ -68,7 +66,7 @@ export const Dish = ({
       {isCustomer && options && options?.length !== 0 && (
         <div>
           <h5 className="mt-8 mb-3 font-medium">Dish Options:</h5>
-          <div className="grid gap-2 justify-start">{dishOptions}</div>
+          <div className="flex flex-col gap-2 justify-start">{dishOptions}</div>
         </div>
       )}
     </div>

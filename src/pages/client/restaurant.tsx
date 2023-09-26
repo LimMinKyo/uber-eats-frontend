@@ -12,6 +12,7 @@ import { Helmet } from "react-helmet-async";
 import { Dish } from "../../components/Dish";
 import { useState } from "react";
 import { DishOption } from "../../components/DishOption";
+import { DishOptionChoice } from "../../components/DishOptionChoice";
 
 const RESTAURANT_QUERY = gql`
   query restaurant($input: RestaurantInput!) {
@@ -95,10 +96,7 @@ export const RestaurantPage = () => {
           ...current,
           {
             dishId,
-            options: [
-              ...(oldItem.options || []),
-              { name: optionName, choice: "" },
-            ],
+            options: [...(oldItem.options || []), { name: optionName }],
           },
         ]);
       }
@@ -178,6 +176,8 @@ export const RestaurantPage = () => {
     }
   };
 
+  console.log(orderItems);
+
   return (
     <div>
       <Helmet>
@@ -233,7 +233,6 @@ export const RestaurantPage = () => {
               isSelected={getIsSelected(dish.id)}
               addItemToOrder={addItemToOrder}
               removeFromOrder={removeFromOrder}
-              addOptionToItem={addOptionToItem}
             >
               {dish.options?.map((option, index) => (
                 <DishOption
@@ -242,9 +241,72 @@ export const RestaurantPage = () => {
                   isSelected={getIsOptionSelected(dish.id, option.name)}
                   name={option.name}
                   extra={option.extra}
+                  choices={option.choices}
                   addOptionToItem={addOptionToItem}
                   removeOptionFromItem={removeOptionFromItem}
-                />
+                >
+                  {option.choices?.map((choice, index) => (
+                    <DishOptionChoice
+                      key={index}
+                      isSelected={Boolean(
+                        getItem(dish.id)?.options.find(
+                          (aOption) => aOption.name === option.name
+                        )?.choice === choice.name
+                      )}
+                      name={choice.name}
+                      extra={choice.extra}
+                      addChoiceToOption={() => {
+                        if (!getIsSelected(dish.id)) {
+                          return;
+                        }
+
+                        const oldItem = getItem(dish.id);
+                        if (oldItem) {
+                          removeFromOrder(dish.id);
+                          setOrderItems((current) => [
+                            ...current,
+                            {
+                              dishId: dish.id,
+                              options:
+                                oldItem.options?.map((oldOption) => {
+                                  if (oldOption.name === option.name) {
+                                    return {
+                                      name: oldOption.name,
+                                      choice: choice.name,
+                                    };
+                                  }
+                                  return {
+                                    name: oldOption.name,
+                                  };
+                                }) || [],
+                            },
+                          ]);
+                        }
+                      }}
+                      removeChoiceToOption={() => {
+                        if (!getIsSelected(dish.id)) {
+                          return;
+                        }
+                        const oldItem = getItem(dish.id);
+                        if (oldItem) {
+                          removeFromOrder(dish.id);
+                          setOrderItems((current) => [
+                            ...current,
+                            {
+                              dishId: dish.id,
+                              options: oldItem.options?.map((oldOption) => {
+                                if (oldOption.name === option.name) {
+                                  return { name: oldOption.name };
+                                }
+                                return oldOption;
+                              }),
+                            },
+                          ]);
+                        }
+                      }}
+                    />
+                  ))}
+                </DishOption>
               ))}
             </Dish>
           ))}
