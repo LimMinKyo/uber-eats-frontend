@@ -23,6 +23,7 @@
     "react-hook-form": "^7.45.2",
     "react-router-dom": "5.3.4",
     "react-scripts": "5.0.1",
+    "subscriptions-transport-ws": "^0.11.0",
     "typescript": "^5.1.6",
     "victory": "^36.6.11",
     "web-vitals": "^2.1.4"

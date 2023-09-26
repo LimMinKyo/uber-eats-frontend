@@ -144,25 +144,31 @@ export const RestaurantPage = () => {
     setOrderItems([]);
   };
 
-  const [createOrderMutation] = useMutation<
-    { createOrder: CreateOrderOutput },
-    { input: CreateOrderInput }
-  >(CREATE_ORDER_MUTATION, {
-    onCompleted: (data) => {
-      const {
-        createOrder: { ok, orderId },
-      } = data;
-      if (ok) {
-        history.push(`/orders/${orderId}`);
-      }
-    },
-  });
+  const [createOrderMutation, { loading: createOrderMutationLoading }] =
+    useMutation<
+      { createOrder: CreateOrderOutput },
+      { input: CreateOrderInput }
+    >(CREATE_ORDER_MUTATION, {
+      onCompleted: (data) => {
+        const {
+          createOrder: { ok, orderId },
+        } = data;
+        if (ok) {
+          history.push(`/orders/${orderId}`);
+        }
+      },
+    });
 
   const triggerConfirmOrder = () => {
+    if (createOrderMutationLoading) {
+      return;
+    }
+
     if (orderItems.length === 0) {
       alert("Can't place empty order");
       return;
     }
+
     const ok = window.confirm("You are about to place an order");
     if (ok) {
       createOrderMutation({
@@ -175,8 +181,6 @@ export const RestaurantPage = () => {
       });
     }
   };
-
-  console.log(orderItems);
 
   return (
     <div>
