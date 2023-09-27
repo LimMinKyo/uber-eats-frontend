@@ -1,9 +1,18 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
-import { GetOrderInput, GetOrderOutput, Order } from "../gql/graphql";
+import {
+  GetOrderInput,
+  GetOrderOutput,
+  Order,
+  OrderStatus,
+  UpdateOrderInput,
+  UpdateOrderOutput,
+  UserRole,
+} from "../gql/graphql";
 import { Helmet } from "react-helmet-async";
 import { FULL_ORDER_FRAGMENT } from "../fragments";
 import { useEffect } from "react";
+import { useMe } from "../hooks/useMe";
 
 const GET_ORDER_QUERY = gql`
   query getOrder($input: GetOrderInput!) {
@@ -27,12 +36,22 @@ const ORDER_SUBSCRIPTION = gql`
   ${FULL_ORDER_FRAGMENT}
 `;
 
+const UPDATE_ORDER_MUTATION = gql`
+  mutation updateOrder($input: UpdateOrderInput!) {
+    updateOrder(input: $input) {
+      ok
+      error
+    }
+  }
+`;
+
 interface IParams {
   id: string;
 }
 
 export const OrderPage = () => {
   const params = useParams<IParams>();
+  const { data: userData } = useMe();
   const { data, subscribeToMore } = useQuery<
     { getOrder: GetOrderOutput },
     { input: GetOrderInput }
@@ -43,6 +62,21 @@ export const OrderPage = () => {
       },
     },
   });
+  const [updateOrderMutation] = useMutation<
+    { updateOrder: UpdateOrderOutput },
+    { input: UpdateOrderInput }
+  >(UPDATE_ORDER_MUTATION);
+
+  const onClickButton = (newStatus: OrderStatus) => {
+    updateOrderMutation({
+      variables: {
+        input: {
+          orderId: +params.id,
+          status: newStatus,
+        },
+      },
+    });
+  };
 
   useEffect(() => {
     if (data?.getOrder.ok) {
@@ -101,9 +135,37 @@ export const OrderPage = () => {
               {data?.getOrder.order?.driver?.email || "Not yet."}
             </span>
           </div>
-          <span className="text-center mt-5 mb-3  text-2xl text-lime-600">
-            Status: {data?.getOrder.order?.status}
-          </span>
+          {userData?.me.role === UserRole.Client && (
+            <span className=" text-center mt-5 mb-3  text-2xl text-lime-600">
+              Status: {data?.getOrder.order?.status}
+            </span>
+          )}
+          {userData?.me.role === UserRole.Owner && (
+            <>
+              {data?.getOrder.order?.status === OrderStatus.Pending && (
+                <button
+                  onClick={() => onClickButton(OrderStatus.Cooking)}
+                  className="btn"
+                >
+                  Accept Order
+                </button>
+              )}
+              {data?.getOrder.order?.status === OrderStatus.Cooking && (
+                <button
+                  onClick={() => onClickButton(OrderStatus.Cooked)}
+                  className="btn"
+                >
+                  Order Cooked
+                </button>
+              )}
+              {data?.getOrder.order?.status !== OrderStatus.Cooking &&
+                data?.getOrder.order?.status !== OrderStatus.Pending && (
+                  <span className=" text-center mt-5 mb-3  text-2xl text-lime-600">
+                    Status: {data?.getOrder.order?.status}
+                  </span>
+                )}
+            </>
+          )}
         </div>
       </div>
     </div>

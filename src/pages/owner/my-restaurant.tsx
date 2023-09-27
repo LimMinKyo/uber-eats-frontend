@@ -1,11 +1,16 @@
-import { gql, useQuery } from "@apollo/client";
-import { Link, useParams } from "react-router-dom";
+import { gql, useQuery, useSubscription } from "@apollo/client";
+import { Link, useHistory, useParams } from "react-router-dom";
 import {
   DISH_FRAGMENT,
+  FULL_ORDER_FRAGMENT,
   ORDERS_FRAGMENT,
   RESTAURANT_FRAGMENT,
 } from "../../fragments";
-import { MyRestaurantInput, MyRestaurantOutput } from "../../gql/graphql";
+import {
+  MyRestaurantInput,
+  MyRestaurantOutput,
+  Order,
+} from "../../gql/graphql";
 import { Helmet } from "react-helmet-async";
 import { Dish } from "../../components/Dish";
 import {
@@ -17,6 +22,7 @@ import {
   VictoryTooltip,
   VictoryVoronoiContainer,
 } from "victory";
+import { useEffect } from "react";
 
 export const MY_RESTAURANT_QUERY = gql`
   query myRestaurant($input: MyRestaurantInput!) {
@@ -39,24 +45,41 @@ export const MY_RESTAURANT_QUERY = gql`
   ${ORDERS_FRAGMENT}
 `;
 
+const PENDING_ORDERS_SUBSCRIPTION = gql`
+  subscription pendingOrders {
+    pendingOrders {
+      ...FullOrderParts
+    }
+  }
+  ${FULL_ORDER_FRAGMENT}
+`;
+
 interface IParams {
   id: string;
 }
 
 export const MyRestaurantPage = () => {
-  const { id } = useParams<IParams>();
+  const params = useParams<IParams>();
+  const history = useHistory();
   const { data } = useQuery<
     { myRestaurant: MyRestaurantOutput },
     { input: MyRestaurantInput }
   >(MY_RESTAURANT_QUERY, {
     variables: {
       input: {
-        restaurantId: +id,
+        restaurantId: +params.id,
       },
     },
   });
+  const { data: subscriptionData } = useSubscription<{ pendingOrders: Order }>(
+    PENDING_ORDERS_SUBSCRIPTION
+  );
 
-  console.log(data);
+  useEffect(() => {
+    if (subscriptionData?.pendingOrders.id) {
+      history.push(`/orders/${subscriptionData.pendingOrders.id}`);
+    }
+  }, [history, subscriptionData?.pendingOrders.id]);
 
   return (
     <div>
@@ -76,7 +99,7 @@ export const MyRestaurantPage = () => {
           {data?.myRestaurant.restaurant?.name || "Loading..."}
         </h2>
         <Link
-          to={`/restaurants/${id}/add-dish`}
+          to={`/restaurants/${params.id}/add-dish`}
           className=" mr-8 text-white bg-gray-800 py-3 px-10"
         >
           Add Dish &rarr;

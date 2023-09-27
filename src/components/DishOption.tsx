@@ -6,7 +6,7 @@ interface IProps {
   isSelected: boolean;
   name: string;
   extra?: number | null;
-  choices?: DishChoice[] | null;
+  choices: DishChoice[];
   addOptionToItem: (dishId: number, optionName: string) => void;
   removeOptionFromItem: (dishId: number, optionName: string) => void;
 }
@@ -40,7 +40,7 @@ export const DishOption = ({
         <span className="mr-2">{name}</span>
         {extra && <span className="text-sm opacity-75">(${extra})</span>}
       </div>
-      {isSelected && (
+      {isSelected && choices?.length !== 0 && (
         <div className="ml-5 mt-3">
           <h5 className="mb-3 font-medium">Choice Options:</h5>
           {children}

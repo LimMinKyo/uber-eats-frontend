@@ -245,7 +245,7 @@ export const RestaurantPage = () => {
                   isSelected={getIsOptionSelected(dish.id, option.name)}
                   name={option.name}
                   extra={option.extra}
-                  choices={option.choices}
+                  choices={option.choices || []}
                   addOptionToItem={addOptionToItem}
                   removeOptionFromItem={removeOptionFromItem}
                 >
