@@ -70,6 +70,7 @@
     "@types/google.maps": "^3.54.1",
     "@types/react-helmet": "^6.1.6",
     "@types/react-router-dom": "^5.3.3",
+    "@types/testing-library__cypress": "^5.0.12",
     "cypress": "^13.2.0",
     "mock-apollo-client": "^1.2.1",
     "tailwindcss": "^3.3.1",
