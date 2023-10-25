@@ -9,13 +9,14 @@ import { setContext } from "@apollo/client/link/context";
 import { ACCESS_TOKEN } from "./constants";
 import { WebSocketLink } from "@apollo/client/link/ws";
 import { getMainDefinition } from "@apollo/client/utilities";
+import { REST_API_URL, WS_API_URL } from "./env";
 
 const accessToken = localStorage.getItem(ACCESS_TOKEN);
 export const isLoggedInVar = makeVar(Boolean(accessToken));
 export const accessTokenVar = makeVar(accessToken);
 
 const wsLink = new WebSocketLink({
-  uri: `ws://localhost:4000/graphql`,
+  uri: WS_API_URL,
   options: {
     reconnect: true,
     connectionParams: {
@@ -25,7 +26,7 @@ const wsLink = new WebSocketLink({
 });
 
 const httpLink = createHttpLink({
-  uri: "http://localhost:4000/graphql",
+  uri: REST_API_URL,
 });
 
 const authLink = setContext((_, { headers }) => ({

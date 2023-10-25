@@ -1,3 +1,5 @@
+import { REST_API_URL } from "../../src/env";
+
 describe("Update Profile", () => {
   const user = cy;
 
@@ -11,7 +13,7 @@ describe("Update Profile", () => {
   });
 
   it("can change email", () => {
-    user.intercept("POST", "http://localhost:4000/graphql", (req) => {
+    user.intercept("POST", `${REST_API_URL}/graphql`, (req) => {
       if (
         req.body?.operationName === "editProfile" &&
         req.body?.variables?.input?.email

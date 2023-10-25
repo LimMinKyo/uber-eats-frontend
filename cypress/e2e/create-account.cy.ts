@@ -1,3 +1,5 @@
+import { REST_API_URL } from "../../src/env";
+
 describe("Create Account", () => {
   const user = cy;
 
@@ -17,7 +19,7 @@ describe("Create Account", () => {
   });
 
   it("should be able to create account and login", () => {
-    user.intercept("http://localhost:4000/graphql", (req) => {
+    user.intercept(`${REST_API_URL}/graphql`, (req) => {
       const { operationName } = req.body;
       if (operationName && operationName === "createAccountMutation") {
         req.reply((res) => {

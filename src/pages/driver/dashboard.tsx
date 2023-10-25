@@ -4,6 +4,7 @@ import { FULL_ORDER_FRAGMENT } from "../../fragments";
 import { gql, useMutation, useSubscription } from "@apollo/client";
 import { useHistory } from "react-router-dom";
 import { Order, TakeOrderInput, TakeOrderOutput } from "../../gql/graphql";
+import { GOOGLE_MAP_API_KEY } from "../../env";
 
 const COOCKED_ORDERS_SUBSCRIPTION = gql`
   subscription coockedOrders {
@@ -27,8 +28,6 @@ interface ICoords {
   lat: number;
   lng: number;
 }
-
-const GOOGLE_MAP_API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY || "";
 
 export const DashBoardPage = () => {
   const history = useHistory();

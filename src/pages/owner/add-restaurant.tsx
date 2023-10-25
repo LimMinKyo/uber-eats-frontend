@@ -10,6 +10,7 @@ import { FormError } from "../../components/FormError";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { MY_RESTAURANTS_QUERY } from "./my-restaurants";
+import { REST_API_URL } from "../../env";
 
 const CREATE_RESTAURANT_MUTATION = gql`
   mutation createRestaurant($input: CreateRestaurantInput!) {
@@ -51,7 +52,7 @@ export const AddRestaurantPage = () => {
       const file = fileList[0];
       const formData = new FormData();
       formData.append("file", file);
-      const response = await fetch("http://localhost:4000/uploads", {
+      const response = await fetch(`${REST_API_URL}/uploads`, {
         method: "POST",
         body: formData,
       });

@@ -1,7 +1,8 @@
 import { CodegenConfig } from "@graphql-codegen/cli";
+import { REST_API_URL } from "./src/env";
 
 const config: CodegenConfig = {
-  schema: "http://localhost:4000/graphql",
+  schema: `${REST_API_URL}/graphql`,
   documents: ["src/**/*.{tsx,ts}"],
   ignoreNoDocuments: true, // for better experience with the watcher
   generates: {
