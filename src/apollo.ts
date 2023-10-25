@@ -16,7 +16,7 @@ export const isLoggedInVar = makeVar(Boolean(accessToken));
 export const accessTokenVar = makeVar(accessToken);
 
 const wsLink = new WebSocketLink({
-  uri: WS_API_URL,
+  uri: `${WS_API_URL}/graphql`,
   options: {
     reconnect: true,
     connectionParams: {
@@ -26,7 +26,7 @@ const wsLink = new WebSocketLink({
 });
 
 const httpLink = createHttpLink({
-  uri: REST_API_URL,
+  uri: `${REST_API_URL}/graphql`,
 });
 
 const authLink = setContext((_, { headers }) => ({
