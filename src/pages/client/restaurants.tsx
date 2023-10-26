@@ -99,7 +99,7 @@ export const RestaurantsPage = () => {
           <RestaurantList restaurants={data?.allRestaurants.results || []} />
           <Pagination
             page={page}
-            totalPages={data?.allRestaurants.totalPages || 1}
+            totalPages={data?.allRestaurants.totalPages}
             onClickNextPage={onClickNextPage}
             onClickPrevPage={onClickPrevPage}
           />

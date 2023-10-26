@@ -74,7 +74,7 @@ export const SearchPage = () => {
           />
           <Pagination
             page={page}
-            totalPages={data?.searchRestaurant.totalPages || 1}
+            totalPages={data?.searchRestaurant.totalPages}
             onClickNextPage={onClickNextPage}
             onClickPrevPage={onClickPrevPage}
           />

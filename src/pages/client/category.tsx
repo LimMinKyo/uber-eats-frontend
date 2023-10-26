@@ -65,7 +65,7 @@ export const CategoryPage = () => {
           <RestaurantList restaurants={data?.category.restaurants || []} />
           <Pagination
             page={page}
-            totalPages={data?.category.totalPages || 1}
+            totalPages={data?.category.totalPages}
             onClickNextPage={onClickNextPage}
             onClickPrevPage={onClickPrevPage}
           />
