@@ -279,9 +279,7 @@ export const RestaurantPage = () => {
                                       choice: choice.name,
                                     };
                                   }
-                                  return {
-                                    name: oldOption.name,
-                                  };
+                                  return oldOption;
                                 }) || [],
                             },
                           ]);

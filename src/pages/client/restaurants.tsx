@@ -81,7 +81,7 @@ export const RestaurantsPage = () => {
       </form>
       {!loading && (
         <div className="max-w-screen-2xl pb-20 mx-auto mt-8">
-          <div className="flex justify-around max-w-sm mx-auto">
+          <div className="flex justify-around max-w-sm mx-auto gap-6">
             {data?.allCategories.categories?.map((category) => (
               <Link key={category.id} to={`/category/${category.slug}`}>
                 <div className="flex flex-col group items-center cursor-pointer">

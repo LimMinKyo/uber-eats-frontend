@@ -38,12 +38,12 @@ export const DishOption = ({
         }`}
       >
         <span className="mr-2">{name}</span>
-        {extra && <span className="text-sm opacity-75">(${extra})</span>}
+        {extra ? <span className="text-sm opacity-75">(${extra})</span> : <></>}
       </div>
       {isSelected && choices?.length !== 0 && (
         <div className="ml-5 mt-3">
           <h5 className="mb-3 font-medium">Choice Options:</h5>
-          {children}
+          <div className="flex flex-col gap-2 w-fit">{children}</div>
         </div>
       )}
     </>

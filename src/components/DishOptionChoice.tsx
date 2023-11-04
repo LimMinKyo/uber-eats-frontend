@@ -29,7 +29,7 @@ export const DishOptionChoice = ({
       }`}
     >
       <span className="mr-2">{name}</span>
-      {extra && <span className="text-sm opacity-75">(${extra})</span>}
+      {extra ? <span className="text-sm opacity-75">(${extra})</span> : <></>}
     </span>
   );
 };
